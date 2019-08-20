@@ -20,5 +20,6 @@ DarkHorizon.Game.prototype = {
         this.player.body.collideWorldBounds = true;
         this.game.camera.follow(this.player);
 
-    }
+    },
+    
 }
