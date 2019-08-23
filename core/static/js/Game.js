@@ -15,10 +15,13 @@ DarkHorizon.Game.prototype = {
         this.game.physics.arcade.enableBody(this.blockedLayer);
         this.backgroundLayer.resizeWorld();
 
-        this.player = this.game.add.sprite(300, 300, 'player');
+        this.player = this.game.add.sprite(300, 300, 'spritesheet');
         this.player.anchor.setTo(0.5, 0.5);
-        this.player.animations.add('stand', [0, 1], 4, true);
-        this.player.animations.play('stand');
+        this.player.animations.add('left', [0, 1], 4, true);
+        this.player.animations.add('right', [62, 63], 4, true);
+        this.player.animations.play('right');
+
+        
 
         this.game.physics.arcade.enable(this.player);
         this.player.body.collideWorldBounds = true;
@@ -29,15 +32,17 @@ DarkHorizon.Game.prototype = {
 
     },
     update: function(){
-        
+        console.log(this.player.centerX, this.player.centerY)
         this.game.physics.arcade.collide(this.player, this.blockedLayer, this.resetJumps, null, this);
 
         let left = this.cursors.left.isDown;
         let right = this.cursors.right.isDown;
         if(right){
+            this.player.animations.play('right');
             this.player.body.velocity.x = 130;
         }
         else if(left){
+            this.player.animations.play('left');
             this.player.body.velocity.x = -130;
         }
         else{
@@ -47,6 +52,7 @@ DarkHorizon.Game.prototype = {
     },
     jump: function(){
         if(JUMPS < 2){
+            // this.player.animations.paused = true;
             this.player.body.velocity.y = -300;
             JUMPS++;
         }
